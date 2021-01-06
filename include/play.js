@@ -1,6 +1,6 @@
 const ytdl = require("erit-ytdl");
 const scdl = require("soundcloud-downloader").default;
-const { canModifyQueue, STAY_TIME } = require("../util/EvobotUtil");
+const { canModifyQueue } = require("../util/EvobotUtil");
 
 module.exports = {
   async play(song, message) {
@@ -17,12 +17,6 @@ module.exports = {
     const PRUNING = config ? config.PRUNING : process.env.PRUNING;
 
     const queue = message.client.queue.get(message.guild.id);
-
-    if (!song) {
-      queue.channel.leave();
-      message.client.queue.delete(message.guild.id);
-      return queue.textChannel.send("🚫 Music queue ended.").catch(console.error);
-    }
 
     let stream = null;
     let streamType = song.url.includes("youtube.com") ? "opus" : "ogg/opus";
