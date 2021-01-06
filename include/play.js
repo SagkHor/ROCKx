@@ -19,13 +19,9 @@ module.exports = {
     const queue = message.client.queue.get(message.guild.id);
 
     if (!song) {
-      setTimeout(function () {
-        if (queue.connection.dispatcher && message.guild.me.voice.channel) return;
-        queue.channel.leave();
-        queue.textChannel.send("Leaving voice channel...");
-      }, STAY_TIME * 0);
-      queue.textChannel.send("❌ Music queue ended.").catch(console.error);
-      return message.client.queue.delete(message.guild.id);
+      queue.channel.leave();
+      message.client.queue.delete(message.guild.id);
+      return queue.textChannel.send("🚫 Music queue ended.").catch(console.error);
     }
 
     let stream = null;
